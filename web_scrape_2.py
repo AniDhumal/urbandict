@@ -49,6 +49,6 @@ with open(filename,"w", encoding= 'utf-8') as f:
 		thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01,"meaning3":meaning02})
 f.close()	
 
-
+#
 
 	
