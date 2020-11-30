@@ -15,7 +15,7 @@ uClient.close()
 page_soup= soup(page_html, "html.parser")
 class_items=page_soup.findAll("li",{"class":"word"})
 
-filename="WordsofmofuckinA2.csv"
+filename="webscrape_test4.csv"
 with open(filename,"w", encoding= 'utf-8') as f:
 
 	headers=["Links","words","meaning1","meaning2","meaning3"]
@@ -24,7 +24,7 @@ with open(filename,"w", encoding= 'utf-8') as f:
 
 
 
-	for i in range (0,140):
+	for i in range (0,len(class_items)):
 
 		word_code=class_items[i]
 		link="https://www.urbandictionary.com"+word_code.a["href"]
@@ -42,13 +42,9 @@ with open(filename,"w", encoding= 'utf-8') as f:
 		var_mean=page2_soup.findAll("div",{"class":"meaning"})
 		
 				
-		meaning00=var_mean[0].text.strip()
-		meaning01=var_mean[2].text.strip()
-		meaning02=var_mean[3].text.strip()
+		meaning00=var_mean[0].text.strip().replace(",", "  ")
+		meaning01=var_mean[2].text.strip().replace(",", "  ")
+		meaning02=var_mean[3].text.strip().replace(",", "  ")
 
 		thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01,"meaning3":meaning02})
 f.close()	
-
-#
-
-	
