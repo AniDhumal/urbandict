@@ -1,11 +1,16 @@
+
+  
 import bs4
 import csv
 
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 
+
+woday="Wallet" #has to be changed everyday 
+
 #grabs the url
-my_url="https://www.urbandictionary.com/popular.php?character=A"
+my_url="https://www.urbandictionary.com/browse.php?character=A"
 #downloads the contents of the url
 uClient= uReq(my_url) 
 #reds the contents
@@ -13,7 +18,8 @@ page_html=uClient.read()
 uClient.close()
 
 page_soup= soup(page_html, "html.parser")
-class_items=page_soup.findAll("li",{"class":"word"})
+pre_class_items=page_soup.find("ul", "no-bullet")
+class_items=pre_class_items.findAll("li")
 
 filename="webscrape_test4.csv"
 with open(filename,"w", encoding= 'utf-8') as f:
@@ -40,11 +46,49 @@ with open(filename,"w", encoding= 'utf-8') as f:
 		
 
 		var_mean=page2_soup.findAll("div",{"class":"meaning"})
-		
-				
-		meaning00=var_mean[0].text.strip().replace(",", "  ")
-		meaning01=var_mean[2].text.strip().replace(",", "  ")
-		meaning02=var_mean[3].text.strip().replace(",", "  ")
+		var_def=page2_soup.findAll("div",{"class":"def-header"})
 
-		thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01,"meaning3":meaning02})
+		
+		if len(var_mean)==1:
+			meaning00=var_mean[0].text.strip().replace(",", "  ")
+			thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00})
+
+
+		else:
+
+			sec_word=var_def[1].text
+			if sec_word==woday:
+
+				if len(var_mean)==2:
+					meaning00=var_mean[0].text.strip()
+					thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00})
+
+				elif len(var_mean)==3:
+					meaning00=var_mean[0].text.strip()
+					meaning01=var_mean[2].text.strip()
+					thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01})	
+
+				else :
+					meaning00=var_mean[0].text.strip()
+					meaning01=var_mean[2].text.strip()
+					meaning02=var_mean[3].text.strip()
+
+
+			elif sec_word!=woday:
+
+				if len(var_mean)==2:
+					meaning00=var_mean[0].text.strip()
+					meaning01=var_mean[1].text.strip()
+					thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01})
+
+				else :
+					meaning00=var_mean[0].text.strip()
+					meaning01=var_mean[1].text.strip()
+					meaning02=var_mean[2].text.strip()
+					thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01,"meaning3":meaning02})	 
+
 f.close()	
+
+
+
+
