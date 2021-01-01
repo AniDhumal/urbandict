@@ -1,5 +1,3 @@
-
-  
 import bs4
 import csv
 
@@ -7,7 +5,7 @@ from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 
 
-woday="Wallet"
+woday="Schrödinger's Douchebag"
 #number of pages in the current letter 
 nos_page=744 
 filename="webscrape_test4.csv"
@@ -84,6 +82,7 @@ with open(filename,"w", encoding= 'utf-8') as f:
 					meaning00=var_mean[0].text.strip()
 					meaning01=var_mean[2].text.strip()
 					meaning02=var_mean[3].text.strip()
+					thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01,"meaning3":meaning02})
 
 
 			elif sec_word!=woday:
@@ -167,6 +166,7 @@ with open(filename,"w", encoding= 'utf-8') as f:
 						meaning02=var_mean[3].text.strip()
 
 
+
 				elif sec_word!=woday:
 
 					if len(var_mean)==2:
@@ -181,7 +181,5 @@ with open(filename,"w", encoding= 'utf-8') as f:
 						thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01,"meaning3":meaning02})	 
 
 f.close()	
-
-
 
 
