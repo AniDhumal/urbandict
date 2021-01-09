@@ -1,3 +1,4 @@
+
 import bs4
 import csv
 
@@ -5,10 +6,10 @@ from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 
 
-woday="Schrödinger's Douchebag"
+woday="11,780"
 #number of pages in the current letter 
-nos_page=744 
-filename="webscrape_test4.csv"
+nos_page=31
+filename="webscrape_P_30PAGES.csv"
 
 
 
@@ -23,7 +24,7 @@ with open(filename,"w", encoding= 'utf-8') as f:
 
 	#grabs the url of the first page 
 
-	my_url="https://www.urbandictionary.com/browse.php?character=A"
+	my_url="https://www.urbandictionary.com/browse.php?character=P"
 	#my_url="https://www.urbandictionary.com/browse.php?character=A&page=744"
 	
 	
@@ -103,9 +104,9 @@ with open(filename,"w", encoding= 'utf-8') as f:
 
 
 
-	for j in range(2,4): #traverses through the multiple pages 
+	for j in range(2,nos_page): #traverses through the multiple pages 
 		#grabs the url
-		my_url="https://www.urbandictionary.com/browse.php?character=A&page="+str(j)
+		my_url="https://www.urbandictionary.com/browse.php?character=P&page="+str(j)
 		#my_url="https://www.urbandictionary.com/browse.php?character=A&page=744"
 		
 		
@@ -164,7 +165,7 @@ with open(filename,"w", encoding= 'utf-8') as f:
 						meaning00=var_mean[0].text.strip()
 						meaning01=var_mean[2].text.strip()
 						meaning02=var_mean[3].text.strip()
-
+						thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01,"meaning3":meaning02})	
 
 
 				elif sec_word!=woday:
@@ -181,5 +182,7 @@ with open(filename,"w", encoding= 'utf-8') as f:
 						thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00,"meaning2":meaning01,"meaning3":meaning02})	 
 
 f.close()	
+
+
 
 
