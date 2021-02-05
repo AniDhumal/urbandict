@@ -1,4 +1,4 @@
-
+#importing all the packages required
 import bs4
 import csv
 
@@ -14,9 +14,10 @@ filename="webscrape_P_30PAGES.csv"
 
 
 
-
+#to create a csv file 
 with open(filename,"w", encoding= 'utf-8') as f:
-
+	
+	#declares the headers of the csv file in columns 
 	headers=["Links","words","meaning1","meaning2","meaning3"]
 	thewriter=csv.DictWriter(f,fieldnames= headers)
 	thewriter.writeheader()
@@ -31,17 +32,18 @@ with open(filename,"w", encoding= 'utf-8') as f:
 
 	#downloads the contents of the url
 	uClient= uReq(my_url) 
-	#reds the contents
+	#reads the contents
 	page_html=uClient.read()
 	uClient.close()
-
+	
+	#converting to a usable/readble format
 	page_soup= soup(page_html, "html.parser")
 	pre_class_items=page_soup.find("ul", "no-bullet")
 	class_items=pre_class_items.findAll("li")
 
 	
-
-	for i in range (0,len(class_items)): #looping through the words of a single page 
+ 	#looping through the words of a single page
+	for i in range (0,len(class_items)):  #This part is only for the 1st page as it has some differences than the other pages
 
 		word_code=class_items[i]
 		link="https://www.urbandictionary.com"+word_code.a["href"]
@@ -103,7 +105,8 @@ with open(filename,"w", encoding= 'utf-8') as f:
 
 
 
-
+	#this is for rest of the pages
+	
 	for j in range(2,nos_page): #traverses through the multiple pages 
 		#grabs the url
 		my_url="https://www.urbandictionary.com/browse.php?character=P&page="+str(j)
@@ -122,8 +125,8 @@ with open(filename,"w", encoding= 'utf-8') as f:
 		class_items=pre_class_items.findAll("li")
 
 		
-
-		for i in range (0,len(class_items)): #looping through the words of a single page 
+		 #looping through the words of a single page 
+		for i in range (0,len(class_items)):
 
 			word_code=class_items[i]
 			link="https://www.urbandictionary.com"+word_code.a["href"]
@@ -146,7 +149,7 @@ with open(filename,"w", encoding= 'utf-8') as f:
 				meaning00=var_mean[0].text.strip().replace(",", "  ")
 				thewriter.writerow({"Links":link, "words": word_name,"meaning1": meaning00})
 
-
+			#testing how many meanings the word has and according to the number the columns will be filled
 			else:
 
 				sec_word=var_def[1].text
